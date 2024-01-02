@@ -63,11 +63,12 @@ router.delete('/del-user', async(req,res) => {
 })
 
 router.get('/viu-user', async (req, res) => {
-    const id = req.params.id;
+    const id = req.query.id;
     const result = await userCol.find({ id:id });
+    console.log(id)
     try {
      
-  
+     
       res.status(200).json({
         status: 'Success',
         data: {
@@ -175,13 +176,13 @@ router.patch('/updt-book', async (req, res) => {
 router.get('/check-user', async (req, res) => {
   const { name,id } = req.query;
 
-  if(name === "admin" && id === "007")
-  {
-    return res.status(400).json({
-      status: 'success',
-      message: 'admin',
-    });
-  }
+  // if(name === "admin" && id === "007")
+  // {
+  //   return res.status(200).json({
+  //     status: 'success',
+  //     message: 'admin',
+  //   });
+  // }
 
   // Check if the user with the given ID already exists
   const existingUser = await userCol.findOne({ id });
@@ -217,6 +218,45 @@ router.get('/check-user', async (req, res) => {
     });
   }
 });
+
+// router.get('/check-user', async (req, res) => {
+//   const { name, id } = req.query;
+
+//   if (name === "admin" && id === "007") {
+//     return res.status(200).json({
+//       status: 'success',
+//       message: 'admin',
+//     });
+//   }
+
+//   const existingUser = await userCol.findOne({ id });
+//   if (!existingUser) {
+//     return res.status(200).json({
+//       status: 'failed',
+//       message: 'There is no user like this please recheck the user.',
+//     });
+//   }
+
+//   try {
+//     const user = await userCol.find({ id: id });
+//     if (user[0].name === name) {
+//       res.status(200).json({
+//         status: 'Success',
+//         data: {
+//           user,
+//         },
+//       });
+//     } else {
+//       console.log('name mismatch');
+//     }
+//   } catch (err) {
+//     console.log("failed");
+//     res.status(500).json({
+//       status: 'Failed',
+//       message: err.message,
+//     });
+//   }
+// });
 
 
 module.exports = router
