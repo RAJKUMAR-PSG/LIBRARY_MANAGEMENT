@@ -175,6 +175,17 @@ router.patch('/updt-book', async (req, res) => {
 router.get('/check-user', async (req, res) => {
   const { name,id } = req.query;
 
+  // Check if the user with the given ID already exists
+  const existingUser = await userCol.findOne({ id });
+
+  if (!existingUser) {
+    return res.status(400).json({
+      status: 'failed',
+      message: 'There is no user like this please recheck the user.',
+    });
+  }
+
+
   try {
     const user= await userCol.find({ id: id });
     console.log(user)
@@ -200,5 +211,6 @@ router.get('/check-user', async (req, res) => {
     });
   }
 });
+
 
 module.exports = router
