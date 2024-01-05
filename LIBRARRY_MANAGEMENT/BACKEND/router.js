@@ -267,4 +267,4 @@ router.get('/check-user', async (req, res) => {
 
 
 
-module.exports = router
+module.exports = route
