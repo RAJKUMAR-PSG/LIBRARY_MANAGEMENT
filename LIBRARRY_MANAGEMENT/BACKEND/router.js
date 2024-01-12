@@ -173,8 +173,6 @@ router.patch('/updt-book', async (req, res) => {
   }
 });
 
-
-
 router.get('/check-user', async (req, res) => {
   const { name, id } = req.query;
 
@@ -217,6 +215,25 @@ router.get('/check-user', async (req, res) => {
     });
   }
 });
+
+
+//To get all books and display it to the user
+router.get('/get-books', async (req, res) => {
+  try 
+  {
+    const books = await bookCol.find({});
+    return res.status(200).json(books);
+  } 
+  catch (err) 
+  {
+    return res.status(500).json
+    ({
+      status: 'failed',
+      message: err.message,
+    });
+  }
+});
+
 
 
 
