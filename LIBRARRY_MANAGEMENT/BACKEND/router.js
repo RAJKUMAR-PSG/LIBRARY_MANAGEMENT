@@ -234,6 +234,33 @@ router.get('/get-books', async (req, res) => {
   }
 });
 
+router.patch('/Lend-books',async(req,res) => {
+    const { bookid,numberOfBooksToLend } = req.body;
+    const existingbook = await bookCol.findOne({_id:bookid});
+
+    if(!existingbook)
+    {
+      return res.status(404).json({
+        status:'failed',
+        message:'Book is not there'
+      })
+    }
+    if(existingbook.bookcount < numberOfBooksToLend)
+    {
+      return res.status(400).json({
+        status:'failed',
+        message:'insufficient book available'
+      })
+    }
+    const updated_count = existingbook.bookcount - numberOfBooksToLend
+    await bookCol.findOne({_id:bookid},{$set:{bookcount:updated_count}}) 
+
+    return res.status(200).json({
+      status:'success',
+      message:'books lent successfully'
+    })
+  
+});
 
 
 
